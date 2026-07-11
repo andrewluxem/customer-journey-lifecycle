@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
-"""Package the Agent Skill into a distributable `.skill` (zip) archive.
+"""Package the Agent Skill into a distributable, instruction-only `.skill` (zip).
 
-Security model: EXPLICIT ALLOWLIST. Only the files that constitute the portable
-skill are packaged. Repository-management files (README, CONTRIBUTING, SECURITY,
-CHANGELOG, AGENTS, LICENSE, CI config, docs, evals, git metadata, build output,
-caches, OS metadata, and any transferred planning or handoff artifacts) are
-never included, even if new ones are added to the repository later.
+Security model: EXPLICIT ALLOWLIST. Only the instruction content a client loads
+at runtime is packaged: `SKILL.md` and the `references/`, `assets/`, and
+`examples/` directories. Everything else is excluded, even if new files are added
+to the repository later — repository-management files (README, CONTRIBUTING,
+SECURITY, CHANGELOG, AGENTS, LICENSE, CI config, docs, evals, git metadata, build
+output, caches, OS metadata, and any transferred planning or handoff artifacts)
+and every repository script. The packaged skill therefore contains no executable
+code; the scripts stay in the repository for CI, development, packaging,
+installation, and validation, but are never shipped inside the artifact.
 
-Public-safety tooling that legitimately carries the approved creator email and
-employer names as detection data (the public-claim scanner and its test) is
-also excluded, so repository-level attribution never reaches the package.
-
-The archive contains exactly one top-level directory named after the skill,
-with `SKILL.md` at its root:
+The archive contains exactly one top-level directory named after the skill, with
+`SKILL.md` at its root:
 
     customer-journey-lifecycle/
     customer-journey-lifecycle/SKILL.md
     customer-journey-lifecycle/references/...
     customer-journey-lifecycle/assets/...
     customer-journey-lifecycle/examples/...
-    customer-journey-lifecycle/scripts/...
 """
 from pathlib import Path
 import zipfile
@@ -30,30 +29,19 @@ DIST = ROOT / "dist"
 # Canonical skill name. validate_skill.py enforces frontmatter name == directory.
 TOP = ROOT.name
 
-# Explicit allowlist: the only content permitted in the packaged skill.
+# Explicit allowlist: the only content permitted in the instruction-only package.
 ALLOWED_TOP_FILES = {"SKILL.md"}
-ALLOWED_TOP_DIRS = {"references", "assets", "examples", "scripts"}
+ALLOWED_TOP_DIRS = {"references", "assets", "examples"}
 
 # Defense in depth: never package these, even inside an allowed directory.
 DENY_PATH_PARTS = {".git", ".github", "dist", "docs", "evals", "__pycache__"}
 DENY_FILENAMES = {".DS_Store", ".gitignore"}
 DENY_SUFFIXES = {".pyc", ".pyo", ".swp", ".swo", ".skill", ".zip"}
 
-# Exact repository-relative paths that must never ship, even though they live in
-# an allowlisted directory. The public-claim scanner and its test intentionally
-# contain the approved creator email and employer names as detection data; they
-# are CI/dev tooling, not skill content, and must stay out of the package.
-DENY_RELPATHS = {
-    Path("scripts/check_public_claims.py"),
-    Path("scripts/test_check_public_claims.py"),
-}
-
 
 def is_allowed(rel: Path) -> bool:
     """Return True only for files explicitly permitted in the package."""
     parts = rel.parts
-    if rel in DENY_RELPATHS:
-        return False
     if any(part in DENY_PATH_PARTS for part in parts):
         return False
     if rel.name in DENY_FILENAMES or rel.suffix.lower() in DENY_SUFFIXES:
@@ -81,7 +69,10 @@ def main() -> int:
         for rel in selected:
             archive.write(ROOT / rel, f"{TOP}/{rel.as_posix()}")
 
-    # Self-check the produced archive against the required layout.
+    # Self-check the produced archive against the required instruction-only
+    # layout: exactly one top-level directory, `SKILL.md` present, and nothing
+    # beneath it except the allowlisted instruction entries — no scripts, no
+    # executables, no repository-management files.
     with zipfile.ZipFile(out) as archive:
         names = archive.namelist()
     top_levels = {name.split("/", 1)[0] for name in names}
@@ -92,6 +83,13 @@ def main() -> int:
     if f"{TOP}/SKILL.md" not in names:
         out.unlink(missing_ok=True)
         print(f"Refusing to package: {TOP}/SKILL.md missing from archive.")
+        return 1
+    allowed_entries = ALLOWED_TOP_FILES | ALLOWED_TOP_DIRS
+    entries = {name[len(TOP) + 1:].split("/", 1)[0] for name in names}
+    unexpected = entries - allowed_entries
+    if unexpected:
+        out.unlink(missing_ok=True)
+        print(f"Refusing to package: non-instruction entries {sorted(unexpected)}.")
         return 1
 
     print(f"Packaged {len(names)} files into {out}")

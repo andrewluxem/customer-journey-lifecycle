@@ -20,6 +20,7 @@ python scripts/run_evals.py
 - Put detailed methods in `references/`.
 - Use only fictional or neutral examples.
 - Do not add company names, internal codenames, private source titles, restricted metrics, or unverified benchmarks.
+- The one exception is repository-level creator attribution in `README.md`, governed by the scope and attribution exception in `docs/sanitization-policy.md`; it does not relax these rules for `SKILL.md`, `references/`, `assets/`, `examples/`, or packaged artifacts.
 - Do not state causal impact without evidence and an explicit measurement design.
 - Preserve no action, suppression, privacy, accessibility, and data-quality checks.
 - Keep facts, assumptions, proposals, and decisions required distinct.

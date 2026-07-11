@@ -23,6 +23,8 @@ Useful contributions include:
 6. Add eval coverage for behavioral changes.
 7. Explain the customer benefit and failure mode addressed by the change.
 
+Repository-level creator attribution in `README.md` is the one exception to the vendor-neutral and organization-neutral requirement above, governed by the scope and attribution exception in `docs/sanitization-policy.md`; it does not relax these requirements for `SKILL.md`, `references/`, `assets/`, `examples/`, or packaged artifacts.
+
 ## Pull request checklist
 
 - [ ] No restricted or identifying material
