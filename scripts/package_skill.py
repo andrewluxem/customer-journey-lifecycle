@@ -7,6 +7,10 @@ CHANGELOG, AGENTS, LICENSE, CI config, docs, evals, git metadata, build output,
 caches, OS metadata, and any transferred planning or handoff artifacts) are
 never included, even if new ones are added to the repository later.
 
+Public-safety tooling that legitimately carries the approved creator email and
+employer names as detection data (the public-claim scanner and its test) is
+also excluded, so repository-level attribution never reaches the package.
+
 The archive contains exactly one top-level directory named after the skill,
 with `SKILL.md` at its root:
 
@@ -35,10 +39,21 @@ DENY_PATH_PARTS = {".git", ".github", "dist", "docs", "evals", "__pycache__"}
 DENY_FILENAMES = {".DS_Store", ".gitignore"}
 DENY_SUFFIXES = {".pyc", ".pyo", ".swp", ".swo", ".skill", ".zip"}
 
+# Exact repository-relative paths that must never ship, even though they live in
+# an allowlisted directory. The public-claim scanner and its test intentionally
+# contain the approved creator email and employer names as detection data; they
+# are CI/dev tooling, not skill content, and must stay out of the package.
+DENY_RELPATHS = {
+    Path("scripts/check_public_claims.py"),
+    Path("scripts/test_check_public_claims.py"),
+}
+
 
 def is_allowed(rel: Path) -> bool:
     """Return True only for files explicitly permitted in the package."""
     parts = rel.parts
+    if rel in DENY_RELPATHS:
+        return False
     if any(part in DENY_PATH_PARTS for part in parts):
         return False
     if rel.name in DENY_FILENAMES or rel.suffix.lower() in DENY_SUFFIXES:

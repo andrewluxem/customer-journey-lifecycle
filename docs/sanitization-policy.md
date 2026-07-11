@@ -4,6 +4,14 @@
 
 Ensure the public skill contains reusable professional practice without exposing restricted, proprietary, identifying, or unsupported material.
 
+## Scope and attribution exception
+
+Company, employer, and creator-identifying references remain prohibited in methodology and packaged-skill content. This prohibition applies to `SKILL.md`, `references/`, `assets/`, `examples/`, and any packaged artifact.
+
+Repository-level creator attribution in `README.md` is explicitly permitted as an authorship exception. This exception does not permit private source titles, internal terminology, exact performance figures, copied or closely paraphrased source passages, or proprietary examples anywhere, including in `README.md`.
+
+Employer names used only in the creator biography establish professional background. They must not be interpreted as endorsement, sponsorship, or affiliation, and they do not authorize company-specific methodology examples elsewhere in this repository or in the packaged skill.
+
 ## Prohibited content
 
 - private or employer-owned source files

@@ -104,6 +104,18 @@ or the location documented by the client.
 - “Build a current-state journey inventory and coverage heatmap.”
 - “Design a controlled win-back experiment with a sunset rule.”
 
+## Built by Andrew Luxem
+
+CRM architect and lifecycle marketer. 20+ years building retention systems, behavioral automation, and customer engagement programs at Amazon, Ancestry, Stanley Black & Decker, Overstock.com, Bed Bath & Beyond, and Big Dill Pickleball Co., with applied engagement architecture for commerce, sports, and entertainment organizations.
+
+[LinkedIn](https://www.linkedin.com/in/andrewluxem) · [andrew@andrewluxem.com](mailto:andrew@andrewluxem.com)
+
+This is an independent personal project. It is not affiliated with, sponsored by, or endorsed by any current or former employer, and it contains no proprietary employer material.
+
 ## Publication standard
 
-This repository contains no restricted metrics, internal source documents, company-specific examples, proprietary system names, or historical performance claims. Contributions must follow `docs/sanitization-policy.md`.
+Methodology content in this repository is vendor-neutral and organization-neutral. The prohibition on restricted metrics, internal source documents, company-specific examples, proprietary system names, and historical performance claims applies to `SKILL.md`, `references/`, `assets/`, `examples/`, and the packaged `.skill` artifact.
+
+The creator biography in the "Built by Andrew Luxem" section above is an intentional repository-level attribution exception. It names current and former employers solely to establish authorship and does not authorize company-specific methodology examples anywhere else in this repository or in the packaged skill.
+
+Contributions must follow `docs/sanitization-policy.md`.
