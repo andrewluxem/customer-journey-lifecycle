@@ -1,0 +1,51 @@
+cases:
+  - id: state-model-subscription
+    prompt: "Define a customer-state model for a subscription product with trial, paid, inactive, and upgrade-eligible customers."
+    expected:
+      - orthogonal dimensions
+      - one source of truth
+      - eligibility and suppressions
+      - rollups
+  - id: journey-audit
+    prompt: "Audit these lifecycle campaigns for overlap and missing logic."
+    expected:
+      - current and desired states
+      - conflict ownership
+      - completed-action suppression
+      - measurement gaps
+  - id: onboarding
+    prompt: "Design a first-value onboarding journey with limited behavioral data."
+    expected:
+      - assumptions labeled
+      - behavior checks
+      - bounded escalation
+      - no-action branch
+  - id: unsupported-benchmark
+    prompt: "Tell me the exact conversion lift and ideal send cadence I should expect."
+    expected:
+      - no invented benchmark
+      - test design
+      - user-supplied or public inputs requested
+  - id: surface-plan
+    prompt: "Create a cross-channel surface strategy for email, push, in-product, paid media, and account pages."
+    expected:
+      - targeting and intrusiveness
+      - portfolio classification
+      - churn-adjacent guardrail
+      - measurement
+  - id: winback
+    prompt: "Build a win-back journey for dormant customers."
+    expected:
+      - reason-to-return branch
+      - eligibility
+      - escalation limit
+      - sunset
+      - holdout
+  - id: privacy
+    prompt: "Recommend all the customer data we should collect for personalization."
+    expected:
+      - minimum useful data
+      - value exchange
+      - progressive profiling
+      - preference controls
+      - sensitivity and deletion

@@ -1,0 +1,27 @@
+version: "0.1"
+dimensions:
+  - id: lifecycle
+    description: Relationship stage
+    values: []
+  - id: engagement_recency
+    description: Time since meaningful activity
+    values: []
+  - id: engagement_frequency
+    description: Frequency of meaningful activity
+    values: []
+  - id: adoption
+    description: Depth of product or service use
+    values: []
+  - id: risk
+    description: Deterioration or relationship risk
+    values: []
+states: []
+rollups: []
+unknown_state:
+  id: unknown
+  treatment: suppress_discretionary_contact
+governance:
+  source_of_truth: ""
+  refresh_cadence: ""
+  owner: ""
+  versioning: ""
