@@ -31,3 +31,5 @@ python scripts/run_evals.py
 - Prefer reusable frameworks over vendor-specific instructions.
 - Add or update eval cases for material behavior changes.
 - Update `CHANGELOG.md` for user-visible changes.
+
+Available skills: see docs/CLAUDE-SKILLS.md
