@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/banner.svg" alt="customer-journey-lifecycle: A portable Agent Skill for customer-state modeling, lifecycle journey design, contact governance, and incremental measurement."></p>
+
 # Customer Journey Lifecycle Skill
 
 A vendor-neutral Agent Skill for designing, auditing, prioritizing, and measuring customer lifecycle systems.
